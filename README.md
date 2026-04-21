@@ -16,7 +16,7 @@ Discord Username's availability checker.
 
 # How to use
 - Have <a href="https://www.python.org/">Python</a> installed.
-- First clone the repository or <a href="https://github.com/suenerve/DSV/archive/refs/heads/main.zip">download it as .zip</a>
+- First clone the repository
 - Install the required libraries, by running : ```pip install -r requirements.txt``` or `pip3 install -r requirements.txt` in your command line.
 - Open `config.ini`
 - Paste your account's token in front of the equal symbol `TOKEN`
@@ -26,17 +26,8 @@ Discord Username's availability checker.
 > - For adding a specific list of usernames, create a file named `usernames.txt` in the same running directory as `dsv.py` and list your usernames there, separating them by a new line.
 > - For adding multiple tokens, open `config.ini` and enable `MULTI-TOKEN` by making it `true` and paste your tokens inside `tokens.txt` separating them by a new line.
 
-
-# Images
-![](./images/1.png)
-
-
 # Notes
 #### Disclaimer: I'm not responsible for/of any damage/results/returns/suspension made/resulted with/by this tool. It is your will to run, and once ran, it's your responsibility.
-
-
-
-> - This repository is licensed under a **NON-COMMERCIAL USE.** <a href="https://github.com/suenerve/Discord-Username-Checker/blob/main/LICENSE">READ here.</a>
 
 - I **demand** my credits to the code wherever it's used.
 - Spamming Discord's API is against TOS, You may get your account suspended/rate limited and I am not responsible.
