@@ -29,9 +29,7 @@ Discord Username's availability checker.
 # Notes
 #### Disclaimer: I'm not responsible for/of any damage/results/returns/suspension made/resulted with/by this tool. It is your will to run, and once ran, it's your responsibility.
 
-- I **demand** my credits to the code wherever it's used.
 - Spamming Discord's API is against TOS, You may get your account suspended/rate limited and I am not responsible.
-- You need to get your Discord's account's authorization token and paste it inside the variable: `TOKEN` . On how to do that check these following steps: https://www.androidauthority.com/get-discord-token-3149920/
 - Make sure to have a decent delay or you may get your account disabled. 
 
 
