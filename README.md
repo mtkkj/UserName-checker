@@ -20,10 +20,10 @@ Discord Username's availability checker.
 - Install the required libraries, by running : ```pip install -r requirements.txt``` or `pip3 install -r requirements.txt` in your command line.
 - Open `config.ini`
 - Paste your account's token in front of the equal symbol `TOKEN`
-- Configure DSV as how you'd like (`config.ini`)
-- Run `dsv.py` 
+- Configure as how you'd like (`config.ini`)
+- Run `user.py` 
 
-> - For adding a specific list of usernames, create a file named `usernames.txt` in the same running directory as `dsv.py` and list your usernames there, separating them by a new line.
+> - For adding a specific list of usernames, create a file named `usernames.txt` in the same running directory as `user.py` and list your usernames there, separating them by a new line.
 > - For adding multiple tokens, open `config.ini` and enable `MULTI-TOKEN` by making it `true` and paste your tokens inside `tokens.txt` separating them by a new line.
 
 # Notes
