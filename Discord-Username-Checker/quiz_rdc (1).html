@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#081B3F">
+<title>Quiz — RD Congo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
+
+:root{
+  --blue-deep:#081B3F;
+  --blue-mid:#12336E;
+  --yellow:#F7C948;
+  --red:#D62839;
+  --sand:#F4EEDD;
+  --line: rgba(247,201,72,0.18);
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0; width:100%; overflow-x:hidden;}
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body{
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(214,40,57,0.18), transparent 45%),
+    radial-gradient(ellipse at 100% 100%, rgba(247,201,72,0.10), transparent 50%),
+    var(--blue-deep);
+  color:var(--sand);
+  font-family:'Archivo', sans-serif;
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:48px 20px 80px;
+  padding-top:calc(48px + env(safe-area-inset-top));
+  padding-bottom:calc(80px + env(safe-area-inset-bottom));
+  padding-left:calc(20px + env(safe-area-inset-left));
+  padding-right:calc(20px + env(safe-area-inset-right));
+}
+
+.wrap{
+  width:100%;
+  max-width:640px;
+}
+
+@media (max-width:480px){
+  body{ padding:28px 14px 56px; padding-top:calc(28px + env(safe-area-inset-top)); padding-bottom:calc(56px + env(safe-area-inset-bottom)); }
+}
+
+/* ---- header ---- */
+.eyebrow{
+  font-size:12px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.eyebrow::before{
+  content:"";
+  width:22px;height:2px;
+  background:var(--red);
+  display:inline-block;
+}
+h1{
+  font-family:'Anton', sans-serif;
+  font-weight:400;
+  font-size:clamp(38px,8vw,58px);
+  line-height:0.95;
+  margin:0 0 6px;
+  letter-spacing:0.01em;
+  text-transform:uppercase;
+}
+h1 span{ color:var(--yellow); }
+.subtitle{
+  color:rgba(244,238,221,0.65);
+  font-size:15px;
+  max-width:46ch;
+  margin-bottom:32px;
+}
+
+/* ---- pitch progress ---- */
+.pitch{
+  position:relative;
+  height:34px;
+  border:1px solid var(--line);
+  border-radius:3px;
+  margin-bottom:36px;
+  overflow:hidden;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+}
+@media (max-width:480px){
+  .pitch{ margin-bottom:24px; }
+  .subtitle{ margin-bottom:22px; }
+}
+.pitch::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image: repeating-linear-gradient(90deg, transparent 0 9.9%, rgba(255,255,255,0.05) 9.9% 10%);
+}
+.pitch-fill{
+  position:absolute; top:0; left:0; bottom:0;
+  width:0%;
+  background:linear-gradient(90deg, var(--red), var(--yellow));
+  transition:width .5s cubic-bezier(.65,0,.35,1);
+}
+.pitch-ball{
+  position:absolute; top:50%; width:22px;height:22px;
+  transform:translate(-50%,-50%);
+  left:0%;
+  transition:left .5s cubic-bezier(.65,0,.35,1);
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+.pitch-label{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  font-size:11px; letter-spacing:0.08em; color:rgba(244,238,221,0.55);
+  font-weight:600; z-index:2;
+}
+
+/* ---- card ---- */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+  border:1px solid rgba(247,201,72,0.15);
+  border-radius:14px;
+  padding:32px 28px;
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width:480px){
+  .card{ padding:22px 18px; border-radius:12px; }
+}
+.category-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:5px 10px;
+  border-radius:20px;
+  margin-bottom:18px;
+}
+.tag-pais{ background:rgba(214,40,57,0.18); color:#ff8a94; border:1px solid rgba(214,40,57,0.4); }
+.tag-futebol{ background:rgba(247,201,72,0.16); color:var(--yellow); border:1px solid rgba(247,201,72,0.4); }
+
+.question{
+  font-family:'Anton', sans-serif;
+  font-weight:400;
+  font-size:clamp(21px,4vw,27px);
+  line-height:1.15;
+  margin:0 0 24px;
+  text-transform:none;
+}
+
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.opt{
+  text-align:left;
+  padding:14px 16px;
+  min-height:48px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  color:var(--sand);
+  font-family:'Archivo', sans-serif;
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  touch-action:manipulation;
+  transition:background .15s, border-color .15s, transform .1s;
+}
+.opt:hover:not(:disabled){
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(247,201,72,0.4);
+}
+.opt:active:not(:disabled){ transform:scale(0.99); }
+.opt .letter{
+  width:26px;height:26px;flex:0 0 auto;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px; font-weight:700;
+}
+.opt:disabled{ cursor:default; }
+.opt.correct{
+  background:rgba(90,180,120,0.18);
+  border-color:#5ab478;
+}
+.opt.correct .letter{ background:#5ab478; border-color:#5ab478; color:#08170e; }
+.opt.wrong{
+  background:rgba(214,40,57,0.16);
+  border-color:var(--red);
+}
+.opt.wrong .letter{ background:var(--red); border-color:var(--red); color:#2a0508;}
+.opt.dim{ opacity:0.45; }
+
+.feedback{
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.5;
+  color:rgba(244,238,221,0.75);
+  min-height:0;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback b{ color:var(--yellow); }
+
+.footer-row{
+  margin-top:24px;
+  display:flex;
+  justify-content:flex-end;
+}
+.next-btn{
+  background:var(--yellow);
+  color:var(--blue-deep);
+  border:none;
+  font-family:'Archivo', sans-serif;
+  font-weight:700;
+  font-size:14px;
+  padding:13px 22px;
+  min-height:46px;
+  border-radius:8px;
+  cursor:pointer;
+  letter-spacing:0.02em;
+  opacity:0;
+  pointer-events:none;
+  touch-action:manipulation;
+  transition:opacity .2s, transform .1s;
+}
+.next-btn.show{ opacity:1; pointer-events:auto; }
+.next-btn:active{ transform:scale(0.97); }
+
+/* ---- results ---- */
+.results{
+  text-align:center;
+  padding:16px 4px 4px;
+}
+.results .big-score{
+  font-family:'Anton', sans-serif;
+  font-size:clamp(58px,16vw,96px);
+  line-height:1;
+  background:linear-gradient(180deg, var(--yellow), #e0a530);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  margin:6px 0 2px;
+}
+.results .out-of{
+  color:rgba(244,238,221,0.5);
+  font-size:14px;
+  margin-bottom:18px;
+}
+.results .verdict{
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+.results .verdict-sub{
+  color:rgba(244,238,221,0.65);
+  font-size:14px;
+  max-width:42ch;
+  margin:0 auto 28px;
+  line-height:1.5;
+}
+.retry-btn{
+  background:transparent;
+  color:var(--sand);
+  border:1px solid rgba(247,201,72,0.4);
+  font-family:'Archivo', sans-serif;
+  font-weight:700;
+  font-size:14px;
+  padding:13px 24px;
+  min-height:46px;
+  border-radius:8px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.retry-btn:hover{ background:rgba(247,201,72,0.1); }
+
+.recap{
+  text-align:left;
+  margin-top:32px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  padding-top:20px;
+}
+.recap-item{
+  display:flex;
+  gap:10px;
+  font-size:13px;
+  padding:8px 0;
+  color:rgba(244,238,221,0.7);
+  border-bottom:1px dashed rgba(255,255,255,0.08);
+}
+.recap-item:last-child{ border-bottom:none; }
+.recap-mark{ flex:0 0 auto; font-weight:700; }
+.recap-mark.ok{ color:#5ab478; }
+.recap-mark.no{ color:var(--red); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Quiz temático</div>
+  <h1>RD Congo<br><span>&amp; os Leopardos</span></h1>
+  <p class="subtitle">10 perguntas — 5 sobre o país, 5 sobre o futebol congolês. Escolha uma resposta para avançar.</p>
+
+  <div class="pitch">
+    <div class="pitch-fill" id="pitchFill"></div>
+    <svg class="pitch-ball" id="pitchBall" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" fill="#F4EEDD" stroke="#081B3F" stroke-width="1.5"/>
+      <path d="M12 6l3 2.2-1.1 3.5H10.1L9 8.2 12 6z" fill="#081B3F"/>
+    </svg>
+    <div class="pitch-label" id="pitchLabel">1 / 10</div>
+  </div>
+
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const PAIS_POOL = [
+  {
+    cat: "pais",
+    q: "Qual é a capital da RD Congo?",
+    options: ["Kinshasa","Lubumbashi","Kisangani","Goma"],
+    correct: "Kinshasa",
+    fact: "Kinshasa é a capital e maior cidade da RD Congo, uma das metrópoles mais populosas da África."
+  },
+  {
+    cat: "pais",
+    q: "A RD Congo faz fronteira com quantos países?",
+    options: ["5","7","9","11"],
+    correct: "9",
+    fact: "São 9 países vizinhos, tornando a RD Congo um dos países com mais fronteiras no continente."
+  },
+  {
+    cat: "pais",
+    q: "Qual rio corta o país e deu origem aos antigos nomes 'Congo Belga' e 'Zaire'?",
+    options: ["Rio Nilo","Rio Congo","Rio Zambeze","Rio Níger"],
+    correct: "Rio Congo",
+    fact: "O Rio Congo é o segundo maior rio do mundo em volume de água, atrás apenas do Amazonas."
+  },
+  {
+    cat: "pais",
+    q: "Sob o governo de Mobutu Sese Seko, em que ano o país passou a se chamar 'Zaire'?",
+    options: ["1960","1971","1985","1997"],
+    correct: "1971",
+    fact: "O nome 'Zaire' vigorou de 1971 até 1997, quando o país voltou a se chamar República Democrática do Congo."
+  },
+  {
+    cat: "pais",
+    q: "Qual é o idioma oficial da RD Congo, herdado do período colonial?",
+    options: ["Inglês","Francês","Português","Espanhol"],
+    correct: "Francês",
+    fact: "O francês é o idioma oficial, ao lado de línguas nacionais como lingala, suaíli, tshiluba e kikongo."
+  },
+  {
+    cat: "pais",
+    q: "Em área territorial, como a RD Congo se posiciona entre os países africanos?",
+    options: ["O maior do continente","O 2º maior do continente","O 5º maior do continente","Um dos menores"],
+    correct: "O 2º maior do continente",
+    fact: "A RD Congo é o 2º maior país da África em área, atrás apenas da Argélia."
+  },
+  {
+    cat: "pais",
+    q: "De qual país europeu a RD Congo conquistou sua independência, em 1960?",
+    options: ["França","Portugal","Bélgica","Reino Unido"],
+    correct: "Bélgica",
+    fact: "A independência foi proclamada em 30 de junho de 1960, encerrando o domínio colonial belga."
+  },
+  {
+    cat: "pais",
+    q: "A RD Congo é atualmente o maior produtor mundial de qual mineral, essencial para baterias?",
+    options: ["Ouro","Cobalto","Ferro","Urânio"],
+    correct: "Cobalto",
+    fact: "O país concentra a maior parte da produção mundial de cobalto, usado em baterias de celulares e carros elétricos."
+  },
+  {
+    cat: "pais",
+    q: "O Parque Nacional de Virunga, na RD Congo, é famoso por abrigar qual espécie ameaçada?",
+    options: ["Panda-gigante","Gorila-das-montanhas","Rinoceronte-branco","Tigre-de-bengala"],
+    correct: "Gorila-das-montanhas",
+    fact: "Virunga é um dos últimos refúgios do gorila-das-montanhas e o parque nacional mais antigo da África."
+  },
+  {
+    cat: "pais",
+    q: "Qual é a moeda oficial da RD Congo?",
+    options: ["Franco congolês","Real","Xelim","Dólar congolês"],
+    correct: "Franco congolês",
+    fact: "O franco congolês é a moeda oficial do país desde 1998, substituindo o antigo zaire."
+  }
+];
+
+const FUTEBOL_POOL = [
+  {
+    cat: "futebol",
+    q: "Como é conhecida a seleção nacional de futebol da RD Congo?",
+    options: ["Os Leões","Os Leopardos","Os Elefantes","As Águias"],
+    correct: "Os Leopardos",
+    fact: "A seleção é apelidada de 'Os Leopardos' (Léopards), em referência ao animal símbolo usado desde a era do Zaire."
+  },
+  {
+    cat: "futebol",
+    q: "Em que Copa do Mundo o Zaire se tornou a primeira seleção da África Subsaariana a participar?",
+    options: ["1970","1974","1982","1990"],
+    correct: "1974",
+    fact: "Na Copa de 1974, na Alemanha, o Zaire fez história como pioneiro da região no torneio."
+  },
+  {
+    cat: "futebol",
+    q: "Quantas vezes a seleção do Congo/Zaire foi campeã da Copa Africana de Nações?",
+    options: ["Nunca","1 vez","2 vezes","3 vezes"],
+    correct: "2 vezes",
+    fact: "Foram 2 títulos: em 1968 e em 1974, ambos ainda sob o nome de Zaire (ou Congo-Kinshasa)."
+  },
+  {
+    cat: "futebol",
+    q: "Qual clube tradicional de Kinshasa é um dos mais titulados do país?",
+    options: ["AS Vita Club","Um clube fictício","Nenhum clube famoso","Time universitário amador"],
+    correct: "AS Vita Club",
+    fact: "O AS Vita Club, fundado em 1935 em Kinshasa, é um dos clubes mais vitoriosos e populares da RD Congo."
+  },
+  {
+    cat: "futebol",
+    q: "O clube TP Mazembe, um dos mais famosos da África, é sediado em qual cidade?",
+    options: ["Kinshasa","Goma","Lubumbashi","Matadi"],
+    correct: "Lubumbashi",
+    fact: "O TP Mazembe é de Lubumbashi e ficou mundialmente conhecido ao chegar à final do Mundial de Clubes da FIFA em 2010."
+  },
+  {
+    cat: "futebol",
+    q: "Em 2010, o TP Mazembe fez história ao chegar à final de qual torneio, perdendo para a Inter de Milão?",
+    options: ["Liga dos Campeões da Europa","Mundial de Clubes da FIFA","Copa Africana de Nações","Copa Libertadores"],
+    correct: "Mundial de Clubes da FIFA",
+    fact: "O TP Mazembe foi o primeiro clube não europeu a chegar à final do Mundial de Clubes, feito histórico para a África."
+  },
+  {
+    cat: "futebol",
+    q: "Qual é o estádio nacional da RD Congo, localizado em Kinshasa?",
+    options: ["Stade des Martyrs","Maracanã","Soccer City","Estádio Nacional"],
+    correct: "Stade des Martyrs",
+    fact: "O Stade des Martyrs ('Estádio dos Mártires') é o principal palco do futebol congolês, com capacidade para dezenas de milhares de torcedores."
+  },
+  {
+    cat: "futebol",
+    q: "A qual confederação continental de futebol a RD Congo é filiada?",
+    options: ["UEFA","CONMEBOL","CAF","AFC"],
+    correct: "CAF",
+    fact: "A RD Congo integra a CAF (Confederação Africana de Futebol), responsável pela Copa Africana de Nações."
+  },
+  {
+    cat: "futebol",
+    q: "Qual atacante nascido na RD Congo se destacou na Premier League, jogando por Everton e Aston Villa?",
+    options: ["Yannick Bolasie","Didier Drogba","Samuel Eto'o","Mohamed Salah"],
+    correct: "Yannick Bolasie",
+    fact: "Yannick Bolasie nasceu em Kinshasa e construiu carreira de destaque no futebol inglês antes de defender a seleção congolesa."
+  },
+  {
+    cat: "futebol",
+    q: "Em que ano o então Congo-Kinshasa sediou e venceu a Copa Africana de Nações em casa?",
+    options: ["1968","1978","1988","1998"],
+    correct: "1968",
+    fact: "Em 1968, o país foi anfitrião e campeão da CAN, seu primeiro título continental."
+  }
+];
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuiz(){
+  const pais5 = shuffle(PAIS_POOL).slice(0,5);
+  const fut5 = shuffle(FUTEBOL_POOL).slice(0,5);
+  const combined = shuffle([...pais5, ...fut5]);
+  return combined.map(item => ({
+    ...item,
+    options: shuffle(item.options)
+  }));
+}
+
+let QUESTIONS = buildQuiz();
+let current = 0;
+let score = 0;
+let answers = [];
+
+const card = document.getElementById('card');
+const pitchFill = document.getElementById('pitchFill');
+const pitchBall = document.getElementById('pitchBall');
+const pitchLabel = document.getElementById('pitchLabel');
+
+function updateProgress(){
+  const pct = (current / QUESTIONS.length) * 100;
+  pitchFill.style.width = pct + '%';
+  pitchBall.style.left = pct + '%';
+  pitchLabel.textContent = Math.min(current+1, QUESTIONS.length) + ' / ' + QUESTIONS.length;
+}
+
+function renderQuestion(){
+  updateProgress();
+  const item = QUESTIONS[current];
+  const tagClass = item.cat === 'pais' ? 'tag-pais' : 'tag-futebol';
+  const tagText = item.cat === 'pais' ? '🇨🇩 País' : '⚽ Futebol';
+  const letters = ['A','B','C','D'];
+
+  card.innerHTML = `
+    <div class="category-tag ${tagClass}">${tagText}</div>
+    <p class="question">${item.q}</p>
+    <div class="options" id="options">
+      ${item.options.map((opt,i)=>`
+        <button class="opt" data-i="${i}">
+          <span class="letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="footer-row">
+      <button class="next-btn" id="nextBtn">${current === QUESTIONS.length-1 ? 'Ver resultado' : 'Próxima pergunta →'}</button>
+    </div>
+  `;
+
+  const optionButtons = card.querySelectorAll('.opt');
+  const feedback = document.getElementById('feedback');
+  const nextBtn = document.getElementById('nextBtn');
+
+  optionButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const chosen = parseInt(btn.dataset.i);
+      const chosenText = item.options[chosen];
+      const isCorrect = chosenText === item.correct;
+      answers.push({ q: item.q, correct: isCorrect });
+      if(isCorrect) score++;
+
+      optionButtons.forEach(b=>{
+        b.disabled = true;
+        const bi = parseInt(b.dataset.i);
+        const bText = item.options[bi];
+        if(bText === item.correct){ b.classList.add('correct'); }
+        else if(bi === chosen){ b.classList.add('wrong'); }
+        else { b.classList.add('dim'); }
+      });
+
+      feedback.innerHTML = (isCorrect ? '✅ <b>Correto.</b> ' : '❌ <b>Quase.</b> ') + item.fact;
+      feedback.classList.add('show');
+      nextBtn.classList.add('show');
+    }, { once:true });
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    current++;
+    if(current < QUESTIONS.length){
+      renderQuestion();
+    } else {
+      renderResults();
+    }
+  });
+}
+
+function verdictFor(score){
+  if(score === 10) return ["Craque absoluto 🏆", "Você conhece a RD Congo e Os Leopardos como poucos. Digno de comentarista esportivo."];
+  if(score >= 7) return ["Titular do time 👏", "Muito bom domínio do assunto — só faltou aquele detalhe fino."];
+  if(score >= 4) return ["No banco de reservas 🙂", "Você manda bem no básico, mas vale rever alguns detalhes."];
+  return ["Hora de treinar mais ⚽", "Bom começo — que tal jogar de novo e fixar as respostas?"];
+}
+
+function renderResults(){
+  pitchFill.style.width = '100%';
+  pitchBall.style.left = '100%';
+  pitchLabel.textContent = QUESTIONS.length + ' / ' + QUESTIONS.length;
+
+  const [title, sub] = verdictFor(score);
+
+  card.innerHTML = `
+    <div class="results">
+      <div class="eyebrow" style="justify-content:center;">Resultado final</div>
+      <div class="big-score">${score}</div>
+      <div class="out-of">de ${QUESTIONS.length} perguntas certas</div>
+      <div class="verdict">${title}</div>
+      <p class="verdict-sub">${sub}</p>
+      <button class="retry-btn" id="retryBtn">Refazer o quiz</button>
+
+      <div class="recap">
+        ${answers.map((a,i)=>`
+          <div class="recap-item">
+            <span class="recap-mark ${a.correct ? 'ok' : 'no'}">${a.correct ? '✓' : '✗'}</span>
+            <span>${i+1}. ${a.q}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('retryBtn').addEventListener('click', ()=>{
+    QUESTIONS = buildQuiz();
+    current = 0; score = 0; answers = [];
+    renderQuestion();
+  });
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
